@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 class="display-5">Арифметическая прогрессия</h2>
+    <form action="{{ app.router['new_task'].url_for() }}" method="post" class="pt-5">
+        {% for field in form %}
+            <div class="form-group row">
+                <label for="{{ field.id }}" class="col-sm-4 col-form-label"> {{ field.label.text }} </label>
+                <div class="col-sm-8">
+                    <input name="{{ field.id }}" type="text" class="form-control has-error has-feedback
+                        {% if field.errors %} is-invalid {% endif %}" id="{{ field.id }}" placeholder="{{ field.description }}"
+                           {% if not field.errors and field.data != None %}value="{{ field.data }}"{% endif %}>
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+        <div class="form-group row">
+            <div class="col-sm-8">
+                <button type="submit" class="btn btn-primary">Поставить в очередь</button>
+            </div>
+        </div>
+    </form>
+{% endblock content%}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if running_tasks %}
+        <h2 class="display-5">Запущенные задачи</h2>
+        {% for task in running_tasks %}
+             {% with task_status='Активная задача' %}
+             {% include 'task.html' %}
+            {% endwith %}
+        {% endfor %}
+    {% endif %}
+    {% if pending_tasks %}
+        <h2 class="display-5">Задачи в очереди</h2>
+        {% for task in pending_tasks %}
+             {% with task_status='Ожидающая в очереди задача' %}
+             {% include 'task.html' %}
+            {% endwith %}
+        {% endfor %}
+    {% endif %}
+    {% if not running_tasks and not pending_tasks %}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Задачи</h5>
+                <p class="card-text">Отсутсвуют активные или ожидающие в очереди задачи.</p>
+                <a href="{{ app.router['new_task'].url_for() }}" class="btn btn-primary">Добавить задачу</a>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
