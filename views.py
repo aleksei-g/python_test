@@ -7,8 +7,8 @@ from task import Task
 
 @aiohttp_jinja2.template('index.html')
 async def tasks_list(request):
-    running_tasks = request.app.queue.get_running_tasks()
-    pending_tasks = request.app.queue.get_pending_tasks()
+    running_tasks = request.app['queue'].get_running_tasks()
+    pending_tasks = request.app['queue'].get_pending_tasks()
     return {
         'request': request,
         'running_tasks': running_tasks,
@@ -28,7 +28,7 @@ async def new_task(request):
                 n1=task_form.n1.data,
                 interval=task_form.interval.data,
             )
-            await request.app.queue.put(task)
+            await request.app['queue'].put(task)
             raise web.HTTPFound(request.app.router['tasks_list'].url_for())
     else:
         task_form = TaskForm()

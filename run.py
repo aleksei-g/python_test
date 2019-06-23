@@ -24,9 +24,9 @@ async def queue_worker(queue):
 
 
 async def start_background_queue(app):
-    app.queue = QueueTask()
+    app['queue'] = QueueTask()
     app['queue_workers'] = [
-        app.loop.create_task(queue_worker(app.queue))
+        app.loop.create_task(queue_worker(app['queue']))
         for _ in range(COUNT_WORKERS)
     ]
 
